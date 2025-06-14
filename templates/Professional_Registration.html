@@ -1,0 +1,79 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+Registration
+{% endblock %}
+
+{% block content %}
+
+<h1>Professional Registration</h1>
+<br>
+<form method="post">
+    <label for="username" class="form-label">Username :
+        <input type="text" name="username" id="username" class="form-control" required>
+    </label>
+    <label for="email" class="form-label">Email :
+        <input type="text" name="email" id="email" class="form-control" required>
+    </label>
+    <label for="cpassword" class="form-label">Password :
+        <input type="password" name="cpassword" id="cpassword" class="form-control" required>
+    </label>
+    <label for="password" class="form-label">Confirm Password :
+        <input type="password" name="password" id="password" class="form-control" required>
+    </label>
+    <label for="address" class="form-label">Address :
+        <input type="text" name="address" id="address" class="form-control" required>
+    </label>
+    <label for="pincode" class="form-label">Pincode :
+        <input type="text" name="pincode" id="pincode" class="form-control" required>
+    </label>
+    <label for="phone" class="form-label">Phone :
+        <input type="text" name="phone" id="phone" class="form-control" required>
+    </label>
+    <label for="aadhaar" class="form-label">Aadhaar :
+        <input type="text" name="aadhaar" id="aadhaar" class="form-control" required>
+    </label>
+    <label for="pan" class="form-label">PAN :
+        <input type="text" name="pan" id="pan" class="form-control" required>
+    </label>
+    <label for="service_name" class="form-label">Service :
+        <select name="service_name" id="service_name" class="form-select">
+            {% for service in services %}
+                <option value="{{service.service_name}}" selected>{{service.service_name}}</option>
+            {% endfor %}
+        </select>
+    </label>
+    <label for="experience" class="form-label">Experience :
+        <input type="text" name="experience" id="experience" class="form-control" required>
+    </label>
+    <button type="submit" class="btn btn-success">Register</button>
+</form>
+
+{% endblock %}
+
+{% block style %}
+    <style>
+        form {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        label {
+            width: 20%;
+            margin-bottom: 16px;
+        }
+        .form-label {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+        }
+        input, select {
+            width: 20%;
+        }
+        h1 {
+            margin-top: 64px;
+            text-align: center
+        }
+    </style>
+{% endblock %}

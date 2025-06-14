@@ -1,0 +1,142 @@
+{% extends 'layout.html' %}
+{% block title %}
+    Live Users
+{% endblock %}
+{% block content %}
+    <br>
+    <h2 style="text-align: center;">Live Users</h2>
+    <br><br>
+    <h4 style="text-align: left;">Customers</h4>
+    <br>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for customer in customers %}
+                {% if customer.block == 'unblocked' %}
+                    <tr>
+                        <th scope="row">{{loop.index}}</th>
+                        <td>{{customer.username}}</td>
+                        <td>{{customer.email}}</td>
+                        <td>{{customer.phone}}</td>
+                        <td>
+                            <a class="btn btn-danger" href="{{url_for('block_customer', id = customer.id)}}">
+                                <i class="fas fa-ban fa-xs"></i>
+                                Block
+                            </a>
+                        </td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+    <br><br>
+    <h4 style="text-align: left;">Professionals</h4>
+    <br>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Service</th>
+                <th scope="col">Experience</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for professional in professionals %}
+                {% if professional.block == 'unblocked' %}
+                    <tr>
+                        <th scope="row">{{loop.index}}</th>
+                        <td>{{professional.username}}</td>
+                        <td>{{professional.email}}</td>
+                        <td>{{professional.service_name}}</td>
+                        <td><strong>{{professional.experience}} yrs</strong></td>
+                        <td>{{professional.phone}}</td>
+                        <td>
+                            <a class="btn btn-danger" href="{{url_for('block_professional', id = professional.id)}}">
+                                <i class="fas fa-ban fa-xs"></i>
+                                Block
+                            </a>
+                        </td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+    <br><br><br><br>
+    <h2 style="text-align: center;">Blocked Users</h2>
+    <br><br>
+    <h4 style="text-align: left;">Customers</h4>
+    <br>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for customer in customers %}
+                {% if customer.block == 'blocked' %}
+                    <tr>
+                        <th scope="row">{{loop.index}}</th>
+                        <td>{{customer.username}}</td>
+                        <td>{{customer.email}}</td>
+                        <td>{{customer.phone}}</td>
+                        <td>
+                            <a class="btn btn-success" href="{{url_for('unblock_customer', id = customer.id)}}">
+                                Unblock
+                            </a>
+                        </td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+    <br><br>
+    <h4 style="text-align: left;">Professionals</h4>
+    <br>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Service</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for professional in professionals %}
+                {% if professional.block == 'blocked' %}
+                    <tr>
+                        <th scope="row">{{loop.index}}</th>
+                        <td>{{professional.username}}</td>
+                        <td>{{professional.email}}</td>
+                        <td>{{professional.phone}}</td>
+                        <td>{{professional.service_name}}</td>
+                        <td>
+                            <a class="btn btn-success" href="{{url_for('unblock_professional', id = professional.id)}}">
+                                Unblock
+                            </a>
+                        </td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -1,0 +1,200 @@
+{% extends 'layout.html' %}
+
+{% block title %}
+    Professional
+{% endblock %}
+
+{% block content %}
+    <br>
+    <div class="heading">
+        <h3 style="text-align: left;">Service Requests</h3>
+    </div>
+    <br>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Service</th>
+                <th scope="col">Customer</th>
+                <th scope="col">Description</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Address</th>
+                <th scope="col">Pincode</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% set index = namespace(value=0) %}
+            {% for servicerequest in servicerequests %}
+                {% if servicerequest.professional_id == user.username and servicerequest.service_status == 'requested' %}
+                    {% set index.value = index.value + 1 %}
+                    <tr>
+                        <th scope="row">{{index.value}}</th>
+                        <td>
+                            {% for service in services %}
+                                {% if service.service_name == servicerequest.service_id %}
+                                    {{service.service_name}}
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for customer in customers %}
+                                {% if customer.id == servicerequest.customer_id %}
+                                    {{customer.username}}
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>{{servicerequest.description}}</td>
+                        <td>
+                            {% for customer in customers %}
+                                {% if customer.id == servicerequest.customer_id %}
+                                    {{customer.phone}}
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for customer in customers %}
+                                {% if customer.id == servicerequest.customer_id %}
+                                    {{customer.address}}
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for customer in customers %}
+                                {% if customer.id == servicerequest.customer_id %}
+                                    {{customer.pincode}}
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            <a class="btn btn-success" href="{{url_for('accept_service_request', id = servicerequest.id)}}">
+                                Accept
+                            </a>
+                            <a class="btn btn-danger" href="{{url_for('decline_service_request', id = servicerequest.id)}}">
+                                Decline
+                            </a>
+                        </td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+    <br><br>
+    <div class="heading">
+        <h3 style="text-align: left;">Accepted Requests</h3>
+    </div>
+    <br>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Service</th>
+                <th scope="col">Customer</th>
+                <th scope="col">Description</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Address</th>
+                <th scope="col">Pincode</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% set index = namespace(value=0) %}
+            {% for servicerequest in servicerequests %}
+                {% if servicerequest.professional_id == user.username and servicerequest.service_status == 'accepted' %}
+                    {% set index.value = index.value + 1 %}
+                    <tr>
+                        <th scope="row">{{index.value}}</th>
+                        <td>
+                            {% for service in services %}
+                                {% if service.service_name == servicerequest.service_id %}
+                                    {{service.service_name}}
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for customer in customers %}
+                                {% if customer.id == servicerequest.customer_id %}
+                                    {{customer.username}}
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>{{servicerequest.description}}</td>
+                        <td>
+                            {% for customer in customers %}
+                                {% if customer.id == servicerequest.customer_id %}
+                                    {{customer.phone}}
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for customer in customers %}
+                                {% if customer.id == servicerequest.customer_id %}
+                                    {{customer.address}}
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for customer in customers %}
+                                {% if customer.id == servicerequest.customer_id %}
+                                    {{customer.pincode}}
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+    <br><br>
+    <div class="heading">
+        <h3 style="text-align: left;">Closed Requests</h3>
+    </div>
+    <br>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Service</th>
+                <th scope="col">Customer</th>
+                <th scope="col">Description</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Review</th>
+                <th scope="col">Rating</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% set index = namespace(value=0) %}
+            {% for servicerequest in servicerequests %}
+                {% if servicerequest.professional_id == user.username and servicerequest.service_status == 'closed' %}
+                    {% set index.value = index.value + 1 %}
+                    <tr>
+                        <th scope="row">{{index.value}}</th>
+                        <td>
+                            {% for service in services %}
+                                {% if service.service_name == servicerequest.service_id %}
+                                    {{service.service_name}}
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>
+                            {% for customer in customers %}
+                                {% if customer.id == servicerequest.customer_id %}
+                                    {{customer.username}}
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>{{servicerequest.description}}</td>
+                        <td>
+                            {% for customer in customers %}
+                                {% if customer.id == servicerequest.customer_id %}
+                                    {{customer.phone}}
+                                {% endif %}
+                            {% endfor %}
+                        </td>
+                        <td>{{servicerequest.remarks}}</td>
+                        <td>{{servicerequest.service_rating}}</td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

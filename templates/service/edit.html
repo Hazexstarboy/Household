@@ -1,0 +1,39 @@
+{% extends 'layout.html' %}
+{% block title %}
+    Edit Service
+{% endblock %}
+{% block content %}
+    <h1>Edit Service</h1>
+    <form method="post" class="form">
+        <label for="service_name" class="form-label">Service Name :
+            <input type="text" name="service_name" id="service_name" class="form-control" value="{{service.service_name}}" required>
+        </label>
+        <label for="service_description" class="form-label">Description :
+            <input type="text" name="service_description" id="service_description" class="form-control" value="{{service.service_description}}" required>
+        </label>
+        <label for="service_time" class="form-label">Time Required :
+            <input type="number" name="service_time" id="service_time" class="form-control" value="{{service.service_time}}" required>
+        </label>
+        <label for="service_cost" class="form-label">Basic Price :
+            <input type="number" name="service_cost" id="service_cost" class="form-control" value="{{service.service_cost}}" required>
+        </label>
+        <br>
+        <input type="submit" value="save" class="btn btn-success">
+    </form>
+{% endblock %}
+
+{% block style %}
+    <style>
+        form{
+            margin-top: 32px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1{
+            margin-top: 64px;
+            text-align: center;
+        }
+    </style>
+{% endblock %}
