@@ -1,0 +1,155 @@
+{% extends 'layout.html' %}
+{% block title %}
+    Search
+{% endblock %}
+
+{% block content %}
+<br><br>
+    <h5>Search By :</h5>
+    <br>
+    {% if user.is_admin %}
+    <form method="post" action="{{url_for('search')}}">
+        <select name="search_parameter" id="search_parameter" class="form-select">
+            <option value="username" selected>Professional</option>
+            <option value="address">Address</option>
+            <option value="pincode">Pincode</option>
+        </select>
+        <input type="text" class="form-control" id="search_query" name="search_query" placeholder="Search Query" required>
+        <button type="submit" class="btn btn-outline-primary">
+            <i class="fas fa-search"></i>
+            Search
+        </button>
+    </form>
+    <br><br>
+    <h2 style="text-align: left;">Search Results</h2>
+    <br>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Service</th>
+                <th scope="col">Experience</th>
+                <th scope="col">Aadhaar</th>
+                <th scope="col">PAN</th>
+                <th scope="col">Address</th>
+                <th scope="col">Pincode</th>
+                <th scope="col">Phone</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for professional in professionals %}
+            {% if professional.username == search_query or professional.address == search_query or professional.pincode == search_query %}
+                <tr>
+                    <th scope="row">{{loop.index}}</th>
+                    <td>{{professional.username}}</td>
+                    <td>{{professional.service_name}}</td>
+                    <td><strong>{{professional.experience}} yrs</strong></td>
+                    <td>{{professional.aadhaar}}</td>
+                    <td>{{professional.pan}}</td>
+                    <td>{{professional.address}}</td>
+                    <td>{{professional.pincode}}</td>
+                    <td>{{professional.phone}}</td>
+                </tr>
+            {% endif %}
+        {% endfor %}
+        </tbody>
+    </table>
+    {% elif user.is_customer %}
+    <form method="post" action="{{url_for('search')}}">
+        <select name="search_parameter" id="search_parameter" class="form-select">
+            <option value="service_name" selected>Service</option>
+            <option value="address">Address</option>
+            <option value="pincode">Pincode</option>
+        </select>
+        <input type="text" class="form-control" id="search_query" name="search_query" placeholder="Search">
+        <button type="submit" class="btn btn-outline-primary">
+            <i class="fas fa-search"></i>
+            Search
+        </button>
+    </form>
+    <br><br>
+    <h2 style="text-align: left;">Search Results</h2>
+    <br>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Service Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">Time Required</th>
+                <th scope="col">Base Price</th>
+                <th scope="col">Professional</th>
+                <th scope="col">Address</th>
+                <th scope="col">Pincode</th>
+                <th scope="col">Phone</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% set index = namespace(value=0) %}
+            {% for professional in professionals %}
+                {% if professional.service_name == search_query %}
+                    {% for service in services %}
+                        {% if professional.service_name == service.service_name %}
+                            {% set index.value = index.value + 1 %}
+                            <tr>
+                                <th scope="row">{{index.value}}</th>
+                                <td>{{service.service_name}}</td>
+                                <td>{{service.service_description}}</td>
+                                <td><strong>{{service.service_time}} hrs</strong></td>
+                                <td><strong>&#8377; {{service.service_cost}}</strong></td>
+                                <td>{{professional.username}}</td>
+                                <td>{{professional.address}}</td>
+                                <td>{{professional.pincode}}</td>
+                                <td>{{professional.phone}}</td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                {% elif professional.address == search_query or professional.pincode == search_query %}
+                    {% for service in services %}
+                        {% if professional.service_name == service.service_name %}
+                            {% set index.value = index.value + 1 %}
+                            <tr>
+                                <th scope="row">{{index.value}}</th>
+                                <td>{{service.service_name}}</td>
+                                <td>{{service.service_description}}</td>
+                                <td><strong>{{service.service_time}} hrs</strong></td>
+                                <td><strong>&#8377; {{service.service_cost}}</strong></td>
+                                <td>{{professional.username}}</td>
+                                <td>{{professional.address}}</td>
+                                <td>{{professional.pincode}}</td>
+                                <td>{{professional.phone}}</td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
+{% endblock %}
+
+{% block style %}
+    <style>
+        form{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-evenly;
+            align-items: center;
+        }
+        #search_parameter{
+            margin-left: 10px;
+            margin-right: 10px;
+            width: 13%;
+        }
+        #search{
+            margin-left: 10px;
+            margin-right: 10px;
+            width: 50%;
+        }
+        button{
+            align-items: center;
+            width: 12%;
+        }
+    </style>
+{% endblock %}

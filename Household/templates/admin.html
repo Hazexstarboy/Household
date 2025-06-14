@@ -1,0 +1,159 @@
+{% extends 'layout.html' %}
+{% block title %}
+    Admin
+{% endblock %}
+{% block content %}
+    <br>
+    <div class="heading">
+        <h3 style="text-align: left;">Services</h3>
+        <div class="Add">
+            <a class="btn btn-success" href="{{url_for('add_service')}}">
+                <i class="fas fa-plus fa-xs"></i>
+                Add Service
+            </a>
+        </div>
+    </div>
+    <br>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Service Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">Time Required</th>
+                <th scope="col">Base Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for service in services %}
+            <tr>
+                <th scope="row">{{loop.index}}</th>
+                <td>{{service.service_name}}</td>
+                <td>{{service.service_description}}</td>
+                <td><strong>{{service.service_time}} hrs</strong></td>
+                <td><strong>&#8377; {{service.service_cost}}</strong></td>
+                <td>
+                    <a class="btn btn-primary" href="{{url_for('edit_service', id = service.id)}}">
+                        <i class="fas fa-edit fa-xs"></i>
+                        Edit
+                    </a>
+                    <a class="btn btn-danger" href="{{url_for('delete_service', id = service.id)}}">
+                        <i class="fas fa-trash fa-xs"></i>
+                        Delete
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br>
+    <h3 style="text-align: left;">Professionals</h3>
+    <br>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Service</th>
+                <th scope="col">Experience</th>
+                <th scope="col">Aadhaar</th>
+                <th scope="col">PAN</th>
+                <th scope="col">Address</th>
+                <th scope="col">Pincode</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% set index = namespace(value=0) %}
+            {% for professional in professionals %}
+                {% if professional.allow_status == 'pending' %}
+                    {% set index.value = index.value + 1 %}
+                    <tr>
+                        <th scope="row">{{index.value}}</th>
+                        <td>{{professional.username}}</td>
+                        <td>{{professional.service_name}}</td>
+                        <td><strong>{{professional.experience}} yrs</strong></td>
+                        <td>{{professional.aadhaar}}</td>
+                        <td>{{professional.pan}}</td>
+                        <td>{{professional.address}}</td>
+                        <td>{{professional.pincode}}</td>
+                        <td>{{professional.phone}}</td>
+                        <td>
+                            <a class="btn btn-success" href="{{url_for('allowed_professional', id = professional.id)}}">
+                                Allow
+                            </a>
+                            <a class="btn btn-danger" href="{{url_for('rejected_professional', id = professional.id)}}">
+                                Decline
+                            </a>
+                        </td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+    </table>
+    <br>
+    <h3 style="text-align: left;">Service History</h3>
+    <br>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Service</th>
+                <th scope="col">Customer</th>
+                <th scope="col">Professional</th>
+                <th scope="col">Description</th>
+                <th scope="col">Status</th>
+                <th scope="col">Rating</th>
+                <th scope="col">Review</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for servicerequest in servicerequests %}
+                <tr>
+                    <th scope="row">{{loop.index}}</th>
+                    <td>{{servicerequest.service_id}}</td>
+                    <td>
+                        {% for customer in customers %}
+                            {% if customer.id == servicerequest.customer_id %}
+                                {{customer.username}}
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td>{{servicerequest.professional_id}}</td>
+                    <td>{{servicerequest.description}}</td>
+                    <td>
+                        {% if servicerequest.service_status == 'requested' %}
+                            <a>Requested</a>
+                        {% elif servicerequest.service_status == 'accepted' %}
+                            <a>Accepted</a>
+                        {% elif servicerequest.service_status == 'declined' %}
+                            <a>Declined</a>
+                        {% elif servicerequest.service_status == 'closed' %}
+                            <a>Closed</a>
+                        {% endif %}
+                    </td>
+                    <td>{{servicerequest.service_rating}}</td>
+                    <td>{{servicerequest.remarks}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}
+{% block style %}
+    <style>
+        .heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .Add {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        h1,h2 {
+            text-align: center;
+        }
+    </style>
+{% endblock %}

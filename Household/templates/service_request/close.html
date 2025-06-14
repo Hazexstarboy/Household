@@ -1,0 +1,58 @@
+{% extends 'layout.html' %}
+{% block content %}
+<br>
+<h2>Close Service Request</h2>
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+            <h5>Service Details</h5>
+            <p><strong>Service :</strong> {{servicerequest.service_id}}</p>
+            <p><strong>Description :</strong> {{servicerequest.description }}</p>
+            <p><strong>Date of Request :</strong> {{servicerequest.date_of_request}}</p>
+            {% for professional in professionals %}
+                {% if professional.username == servicerequest.professional_id %}
+                    <p><strong>Professional Name :</strong> {{ professional.username }}</p>
+                    <p><strong>Professional Phone :</strong> {{ professional.phone }}</p>
+                {% endif %}
+            {% endfor %}
+            <form method="POST">
+                <div class="form-group">
+                    <p for="rating"><strong>Rating (1-5) :</strong></p>
+                    <input type="number" class="form-control" id="rating" name="rating" 
+                           min="1" max="5" required>
+                </div>
+                <div class="form-group">
+                    <p for="remarks"><strong>Remarks :</strong></p>
+                    <textarea class="form-control" id="remarks" name="remarks" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn btn-danger mt-3">Close Request</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block style %}
+<style>
+    .container {
+        margin-top: 32px;
+        padding: auto;
+        justify-content: center;
+    }
+    .card {
+        margin-top: 32px;
+        display: flex;
+        align-items: center;
+    }
+    form {
+        margin-top: 16px 0;
+    }
+    h2, h5, label {
+        text-align: center;
+    }
+    p{
+        margin: 15px 0;
+        justify-content: center;
+        text-align: center;
+    }
+</style>
+{% endblock %}
